@@ -10,7 +10,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="{{ route('periksa.index') }}" class="nav-link">
+        <a href="{{ route('dokter.periksa.index') }}" class="nav-link">
             <i class="nav-icon fas fa-stethoscope"></i>
             <p>
                 Pemeriksaan
@@ -19,18 +19,24 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{ route('periksa.index') }}" class="nav-link">
+                <a href="{{ route('dokter.periksa.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Daftar Pemeriksaan</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('periksa.create') }}" class="nav-link">
+                <a href="{{ route('dokter.periksa.create') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah Pemeriksaan</p>
                 </a>
             </li>
         </ul>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('dokter.jadwal.index') }}" class="nav-link">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>Jadwal Praktek</p>
+        </a>
     </li>
     <li class="nav-item">
         <a href="/dokter/obat" class="nav-link">
@@ -74,7 +80,7 @@
                         <div class="icon">
                             <i class="fas fa-stethoscope"></i>
                         </div>
-                        <a href="{{ route('periksa.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('dokter.periksa.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->

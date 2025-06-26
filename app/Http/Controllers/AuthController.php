@@ -12,7 +12,7 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
-    public function showRegsiterForm()
+    public function showRegisterForm()
     {
         return view('auth.register');
     }
@@ -57,10 +57,12 @@ class AuthController extends Controller
 
             toastr()->success('Selamat datang ' . $user->nama);
 
-            if ($user->role === 'dokter') {
-                return redirect('dokter/dashboard');
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->role === 'dokter') {
+                return redirect()->route('dokter.dashboard');
             } elseif ($user->role === 'pasien') {
-                return redirect('pasien/dashboard');
+                return redirect()->route('pasien.dashboard');
             } else {
                 return abort(403, 'Unauthorized action.');
             }

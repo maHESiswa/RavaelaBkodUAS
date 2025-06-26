@@ -113,6 +113,7 @@ class PeriksaController extends BaseController
             return redirect()->route('periksa.index');
 
         } catch (\Exception $e) {
+            echo $e->getMessage();
             DB::rollback();
             toastr()->error('Terjadi kesalahan. Data pemeriksaan gagal disimpan.');
             return back()->withInput();

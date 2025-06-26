@@ -338,8 +338,15 @@
                 </ul>
                 <div class="d-flex ms-lg-3">
                     @auth
-                        <a href="{{ auth()->user()->role === 'dokter' ? route('dokter.dashboard') : route('pasien.dashboard') }}"
-                            class="btn btn-light text-primary">Dashboard</a>
+                        @php
+                            $dashboardRoute = match(auth()->user()->role) {
+                                'admin' => route('admin.dashboard'),
+                                'dokter' => route('dokter.dashboard'),
+                                'pasien' => route('pasien.dashboard'),
+                                default => '/login'
+                            };
+                        @endphp
+                        <a href="{{ $dashboardRoute }}" class="btn btn-light text-primary">Dashboard</a>
                     @else
                         <a href="/login" class="btn btn-outline-light me-2">Masuk</a>
                         <a href="/register" class="btn btn-light text-primary">Daftar</a>

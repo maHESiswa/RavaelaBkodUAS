@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Periksa extends Model
 {
+    protected $table = 'periksa';
+    
     protected $fillable = [
-        'id_pasien',
-        'id_dokter',
+        'id_daftar_poli',
         'tgl_periksa',
         'catatan',
         'biaya_periksa',
@@ -25,27 +26,18 @@ class Periksa extends Model
      * Validation rules for Periksa
      */
     public static $rules = [
-        'id_pasien' => 'required|exists:users,id,role,pasien',
-        'id_dokter' => 'required|exists:users,id,role,dokter',
+        'id_daftar_poli' => 'required|exists:daftar_poli,id',
         'tgl_periksa' => 'required|date',
-        'catatan' => 'required|string',
-        'biaya_periksa' => 'required|integer|min:0',
+        'catatan' => 'nullable|string|max:1000',
+        'biaya_periksa' => 'required|integer|min:10000|max:1000000',
     ];
 
     /**
-     * Relasi ke tabel User sebagai pasien
+     * Relasi ke tabel DaftarPoli
      */
-    public function pasien(): BelongsTo
+    public function daftarPoli(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_pasien');
-    }
-
-    /**
-     * Relasi ke tabel User sebagai dokter
-     */
-    public function dokter(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'id_dokter');
+        return $this->belongsTo(DaftarPoli::class, 'id_daftar_poli');
     }
 
     /**
@@ -54,5 +46,33 @@ class Periksa extends Model
     public function detailPeriksas(): HasMany
     {
         return $this->hasMany(DetailPeriksa::class, 'id_periksa');
+    }
+
+    /**
+     * Get pasien through daftar_poli
+     */
+    public function getPasienAttribute()
+    {
+        return $this->daftarPoli->pasien ?? null;
+    }
+
+    /**
+     * Get dokter through daftar_poli and jadwal
+     */
+    public function getDokterAttribute()
+    {
+        return $this->daftarPoli->jadwalPeriksa->dokter ?? null;
+    }
+
+    /**
+     * Calculate total biaya including obat
+     */
+    public function getTotalBiayaAttribute()
+    {
+        $biayaObat = $this->detailPeriksas->sum(function ($detail) {
+            return $detail->obat->harga ?? 0;
+        });
+        
+        return $this->biaya_periksa + $biayaObat;
     }
 }

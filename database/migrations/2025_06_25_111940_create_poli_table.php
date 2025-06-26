@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_periksa', function (Blueprint $table) {
+        Schema::create('poli', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_periksa');
-            $table->unsignedBigInteger('id_obat');
+            $table->string('nama_poli', 25)->unique();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
-            
-            $table->foreign('id_periksa')->references('id')->on('periksa')->onDelete('cascade');
-            $table->foreign('id_obat')->references('id')->on('obat')->onDelete('restrict');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_periksa');
+        Schema::dropIfExists('poli');
     }
 };

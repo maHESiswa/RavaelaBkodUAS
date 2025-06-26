@@ -7,17 +7,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DetailPeriksa extends Model
 {
+    protected $table = 'detail_periksa';
+    
     protected $fillable = [
         'id_periksa',
         'id_obat',
     ];
 
     /**
-     * Validation rules
+     * Validation rules for DetailPeriksa
      */
     public static $rules = [
-        'id_periksa' => 'required|exists:periksas,id',
-        'id_obat' => 'required|exists:obats,id',
+        'id_periksa' => 'required|exists:periksa,id',
+        'id_obat' => 'required|exists:obat,id',
     ];
 
     /**
